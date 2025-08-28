@@ -2,3 +2,12 @@ syntax = "proto3";
 
 package user;
 
+option go_package = "grpc_mongo_crud/proto";
+
+service UserService{
+    rpc CreateUser(UserRequest) returns (UserResponse);
+    rpc GetUser(GetUserRequest) returns (UserResponse);
+    rpc UpdateUser(UserRequest) returns (UserResponse);
+    rpc DeleteUser(GetUserRequest) returns (UserResponse);
+}
+
