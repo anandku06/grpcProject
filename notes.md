@@ -165,4 +165,17 @@ type UserServiceClient interface {
 
 ```
 
-- refrain from any type of editing in these files 
+- refrain from any type of editing in these files
+
+## pb.UnimplementedUserServiceServer
+
+- got from the `user_grpc.pb.go`, contains all the unimplemented user services written in the `.proto` file
+- all the services defined inside the `.proto` file gets an interface in the `user_grpc.pb.go` file, and a helper empty struct.
+
+**What happens if you don't embed the line?**
+- If tomorrow someone adds a new method in the `.proto`, your server would stop compiling because you didn’t implement that new method.
+- By embedding `UnimplementedUserServiceServer`, your server automatically has a default "not implemented" version of any methods you didn’t write yet.
+- That means your code keeps compiling, and you only override the methods you care about. 
+
+- Think of `UnimplementedUserServiceServer` as a default skeleton house 🏠.
+  - Even if you don’t build all rooms yet, you at least have a placeholder saying “room not ready”.You only decorate or add rooms (methods) you care about right now.
