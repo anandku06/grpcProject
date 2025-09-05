@@ -110,3 +110,57 @@ message UserResponse {
 - This `.proto` File is compiled using `.proto` compiler
     - `user.pb.go` -> Go structs
     - `user_grpc.pb.go` -> Go interfaces for gRPC
+
+## protoc
+
+- `protoc` => **Protocol Buffer Compiler**
+- write your *API definition* (message + services) inside the `.proto` file.
+- `protoc` compiles that file into the source code, that can be read by Go (or any other language according to the dependencies used)
+- Basically, generates the boilerplate code for you.
+
+```bash
+protoc --go_out=. --go-grpc_out=. user.proto # this is the command
+```
+
+- it generates two files:
+  - `user.pb.go`
+    - contains data structure (structs) for your message
+    - In short, all your data models live here.
+```proto
+message User {
+  string name = 1;
+  int32 age = 2;
+}
+```
+- then in Go, it looks like this:
+```go
+type User struct {
+    Name string
+    Age  int32
+}
+```
+
+  - `user_grpc.pb.go`
+    - contains **gRPC service code**.
+    - all your gRPC networking boilerplate lives here.
+
+```proto
+service UserService {
+  rpc GetUser(UserRequest) returns (UserResponse);
+}
+```
+
+- Then in Go, it'll look like this:
+
+```go
+type UserServiceServer interface {
+    GetUser(context.Context, *UserRequest) (*UserResponse, error)
+}
+
+// or
+
+type UserServiceClient interface {
+    GetUser(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
+}
+
+```
