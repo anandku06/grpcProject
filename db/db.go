@@ -2,6 +2,7 @@ package db
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -23,6 +24,7 @@ func InitMango() error {
 	client, err := mongo.Connect(ctx, clientOptions)
 
 	if err != nil {
+		fmt.Println("Error in MongoDB Connection!", err)
 		return err
 	}
 
