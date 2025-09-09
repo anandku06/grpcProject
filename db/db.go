@@ -3,14 +3,13 @@ package db
 import (
 	"context"
 	"fmt"
+	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
-
-// go.mongodb.org/mongo-driver/mongo
-// go.mongodb.org/mongo-driver/mongo/options
 
 var UserCollections *mongo.Collection
 
@@ -19,8 +18,13 @@ func InitMango() error {
 	// Canceling this context releases resources associated with it
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second) // if connection not happens, then after 10 seconds
 	defer cancel() // this is called if connection does'nt happen
+	if err := godotenv.Load(); err != nil {
+		fmt.Println("No .env file found")
+	}
+	MONGO_URL := os.Getenv("MONGODB_URI")
+	// Set client options
 
-	clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+	clientOptions := options.Client().ApplyURI(MONGO_URL) // ApplyURI sets the URI to connect to the MongoDB server
 	client, err := mongo.Connect(ctx, clientOptions)
 
 	if err != nil {
