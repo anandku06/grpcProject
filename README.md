@@ -60,7 +60,7 @@ This project implements a **basic CRUD (Create, Read, Update, Delete) backend AP
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/grpc-go-mongodb-crud.git
+git clone https://github.com/anandku06/grpc-go-mongodb-crud.git
 cd grpc-go-mongodb-crud
 ```
 
